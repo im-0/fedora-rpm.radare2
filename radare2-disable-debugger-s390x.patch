@@ -1,0 +1,35 @@
+From b0448d9d033d0ec125abc7b97cbbd2b08f6579aa Mon Sep 17 00:00:00 2001
+From: Riccardo Schirone <sirmy15@gmail.com>
+Date: Thu, 6 Sep 2018 13:42:48 +0200
+Subject: [PATCH] meson.build: disable debugger features on Linux/s390x
+
+Debugging is not supported on Linux/s390x and compilation there doesn't
+work. This patch disables the debugging features completely, until
+upstream will have proper support for Linux/s390x.
+---
+ meson.build | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meson.build b/meson.build
+index 355aa5dd3..dfdd77100 100644
+--- a/meson.build
++++ b/meson.build
+@@ -237,12 +237,14 @@ else
+   message('Using bundled openssl code')
+ endif
+ 
++has_debugger = not (host_machine.system() == 'linux' and host_machine.cpu_family() == 's390x')
++
+ userconf = configuration_data()
+ userconf.set('HAVE_LIB_MAGIC', sys_magic.found().to_int())
+ userconf.set('USE_LIB_MAGIC', use_syslib_magic.to_int())
+ userconf.set('HAVE_LIB_XXHASH', sys_xxhash.found().to_int())
+ userconf.set('USE_LIB_XXHASH', use_sys_xxhash.to_int())
+-userconf.set('DEBUGGER', 1)
++userconf.set('DEBUGGER', has_debugger.to_int())
+ userconf.set('PREFIX', r2_prefix)
+ userconf.set('LIBDIR', r2_libdir)
+ userconf.set('INCLUDEDIR', r2_incdir)
+-- 
+2.14.4
+
