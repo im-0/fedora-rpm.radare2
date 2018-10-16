@@ -3,7 +3,7 @@
 
 Name:           radare2
 Summary:        The reverse engineering framework
-Version:        2.9.0
+Version:        3.0.0
 URL:            https://radare.org/
 VCS:            https://github.com/radare/radare2
 
@@ -21,7 +21,6 @@ Release:        %{rel}%{?dist}
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 
 Patch1:         radare2-disable-debugger-s390x.patch
-Patch2:         radare2-reproducible-tags.patch
 %else
 Release:        0.%{rel}.%{gitdate}git%{shortcommit}%{?dist}
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{commit}/%{name}-%{version}-%{shortcommit}.tar.gz
@@ -47,6 +46,7 @@ License:        LGPLv3+ and GPLv2+ and BSD and MIT and ASL 2.0 and MPLv2.0 and z
 # shlr/spp - MIT
 # shlr/zip/zlib - zlib/libpng License (system installed shared libzip is used instead)
 # shlr/zip/zip - 3 clause BSD (system installed shared zlib is used instead)
+# shlr/ptrace-wrap - LGPL v3+
 
 # Removed from the final package because of the presence of minified JS and
 # absence of the source JS - this should be packaged with radare2-webui
@@ -68,13 +68,14 @@ BuildRequires:  sed
 BuildRequires:  gcc
 BuildRequires:  meson
 BuildRequires:  ninja-build
-BuildRequires:  pkgconfig
-BuildRequires:  bzip2-devel
 BuildRequires:  file-devel
-BuildRequires:  libzip-devel
-BuildRequires:  zlib-devel
-BuildRequires:  lz4-devel
-BuildRequires:  capstone-devel >= 3.0.4
+BuildRequires:  pkgconfig
+BuildRequires:  pkgconfig(bzip2)
+BuildRequires:  pkgconfig(libzip)
+BuildRequires:  pkgconfig(zlib)
+BuildRequires:  pkgconfig(liblz4)
+BuildRequires:  pkgconfig(capstone) >= 3.0.4
+BuildRequires:  pkgconfig(libuv)
 
 Requires:       %{name}-common = %{version}-%{release}
 
@@ -139,6 +140,10 @@ Provides:       bundled(vavrdisasm) = 1.6
 # It is not clear which version has been copied
 Provides:       bundled(grub2)
 
+# ./shlr/ptrace-wrap
+# https://github.com/thestr4ng3r/ptrace-wrap
+Provides:       bundled(ptrace-wrap)
+
 
 %description
 The radare2 is a reverse-engineering framework that is multi-architecture,
@@ -181,6 +186,9 @@ sed -i -e "s|%{version}-git|%{version}|g;" configure configure.acr
 rm doc/fortunes.{creepy,nsfw,fun}
 # Removing zip/lzip and lz4 files because we use system dependencies
 rm -rf shlr/zip shlr/lz4
+# Removing unused man pages
+rm man/r2pm.1
+rm man/r2-docker.1
 
 # Webui contains pre-build and/or minimized versions of JS libraries without source code
 # Consider installing the web-interface from https://github.com/radare/radare2-webui
@@ -199,7 +207,8 @@ echo "Available under https://github.com/radare/radare2-webui" >> ./shlr/www/REA
     -Duse_sys_zlib=true \
     -Duse_sys_lz4=true \
     -Duse_sys_xxhash=true \
-    -Duse_sys_openssl=true
+    -Duse_sys_openssl=true \
+    -Duse_libuv=true
 %meson_build
 
 %install
@@ -229,7 +238,7 @@ ln -s radare2 %{buildroot}/%{_bindir}/r2
 %doc %{_datadir}/%{name}/%{version}/www/README.Fedora
 %license COPYING COPYING.LESSER
 %{_bindir}/r*
-%{_libdir}/libr_*.so.2.9.*
+%{_libdir}/libr_*.so.3.0.*
 %{_mandir}/man1/r*.1.*
 %{_mandir}/man7/esil.7.*
 %dir %{_datadir}/%{name}
@@ -258,6 +267,8 @@ ln -s radare2 %{buildroot}/%{_bindir}/r2
 
 
 %changelog
+* Tue Oct 16 2018 Riccardo Schirone <rschirone91@gmail.com> 3.0.0-1
+- rebase to upstream version 3.0.0
 * Tue Sep 4 2018 Riccardo Schirone <rschirone91@gmail.com> 2.9.0-1
 - use system xxhash and openssl
 - bump to 2.9.0 release
