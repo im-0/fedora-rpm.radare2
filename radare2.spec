@@ -14,7 +14,7 @@ VCS:            https://github.com/radare/radare2
 %global         commit          00144a348c47802f203e5de9add609ea1b0808e4
 %global         shortcommit     %(c=%{commit}; echo ${c:0:7})
 
-%global         rel              2
+%global         rel              1
 
 %if %{with build_release}
 Release:        %{rel}%{?dist}
@@ -268,10 +268,9 @@ ln -s radare2 %{buildroot}/%{_bindir}/r2
 
 
 %changelog
-* Tue Oct 16 2018 Riccardo Schirone <rschirone91@gmail.com> 3.0.0-2
-- fixes for r_sys_breakpoint on ppc64 and s390x architectures
 * Tue Oct 16 2018 Riccardo Schirone <rschirone91@gmail.com> 3.0.0-1
 - rebase to upstream version 3.0.0
+- fixes for r_sys_breakpoint on ppc64 and s390x architectures
 * Tue Sep 4 2018 Riccardo Schirone <rschirone91@gmail.com> 2.9.0-1
 - use system xxhash and openssl
 - bump to 2.9.0 release
