@@ -235,16 +235,11 @@ ln -s radare2 %{buildroot}/%{_bindir}/r2
 %doc doc/avr.md doc/brainfuck.md doc/calling-conventions.md doc/debug.md
 %doc doc/esil.md doc/gdb.md doc/gprobe.md doc/intro.md doc/io.md doc/rap.md
 %doc doc/siol.md doc/strings.md doc/windbg.md doc/yara.md
-# Webui removed cuz of having minified js code and missing source code
-%doc %{_datadir}/%{name}/%{version}/www/README.Fedora
 %license COPYING COPYING.LESSER
 %{_bindir}/r*
 %{_libdir}/libr_*.so.3.0.*
 %{_mandir}/man1/r*.1.*
 %{_mandir}/man7/esil.7.*
-%dir %{_datadir}/%{name}
-%dir %{_datadir}/%{name}/%{version}
-%dir %{_datadir}/%{name}/%{version}/www
 
 
 %files devel
@@ -265,6 +260,11 @@ ln -s radare2 %{buildroot}/%{_bindir}/r2
 %{_datadir}/doc/%{name}/fortunes.*
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/doc/%{name}
+%dir %{_datadir}/%{name}
+%dir %{_datadir}/%{name}/%{version}
+%dir %{_datadir}/%{name}/%{version}/www
+# Webui removed cuz of having minified js code and missing source code
+%doc %{_datadir}/%{name}/%{version}/www/README.Fedora
 
 
 %changelog
