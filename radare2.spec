@@ -3,7 +3,7 @@
 
 Name:           radare2
 Summary:        The reverse engineering framework
-Version:        3.0.0
+Version:        3.0.1
 URL:            https://radare.org/
 VCS:            https://github.com/radare/radare2
 
@@ -21,7 +21,6 @@ Release:        %{rel}%{?dist}
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 
 Patch1:         radare2-disable-debugger-s390x.patch
-Patch2:         radare2-fix-sys-breakpoint.patch
 %else
 Release:        0.%{rel}.%{gitdate}git%{shortcommit}%{?dist}
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{commit}/%{name}-%{version}-%{shortcommit}.tar.gz
@@ -268,6 +267,9 @@ ln -s radare2 %{buildroot}/%{_bindir}/r2
 
 
 %changelog
+* Tue Oct 23 2018 Riccardo Schirone <rschirone91@gmail.com> 3.0.1-1
+- rebase to upstream version 3.0.1 which includes some minor fixes and fixes
+  for ppc64 and s390x architectures
 * Tue Oct 16 2018 Riccardo Schirone <rschirone91@gmail.com> 3.0.0-2
 - fix datadir dir ownership
 * Tue Oct 16 2018 Riccardo Schirone <rschirone91@gmail.com> 3.0.0-1
