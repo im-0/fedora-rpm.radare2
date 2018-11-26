@@ -1,29 +1,31 @@
-From 6aa7254eb6d7ed834210771978385017dbbca61c Mon Sep 17 00:00:00 2001
+From 4fffaf0c423bf5f1d80389eab6975c6a602e0107 Mon Sep 17 00:00:00 2001
 From: Riccardo Schirone <sirmy15@gmail.com>
-Date: Mon, 26 Nov 2018 08:26:20 +0100
+Date: Mon, 26 Nov 2018 11:36:11 +0100
 Subject: [PATCH] meson.build: disable debugger features on Linux/s390x
 
 Debugging is not supported on Linux/s390x and compilation there doesn't
 work.  This patch disables the debugging features completely, until
 upstream will have proper support for Linux/s390x.
 ---
- meson.build | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meson.build | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/meson.build b/meson.build
-index b88782fd2..986559f60 100644
+index b88782fd2..0be8f18f1 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -265,6 +265,8 @@ use_ptrace_wrap = ['linux'].contains(host_machine.system())
+@@ -262,6 +262,10 @@ endif
+ have_ptrace = not ['windows', 'cygwin', 'sunos'].contains(host_machine.system())
+ use_ptrace_wrap = ['linux'].contains(host_machine.system())
+ 
++has_debugger = not (host_machine.system() == 'linux' and host_machine.cpu_family() == 's390x')
++have_ptrace = have_ptrace and has_debugger
++use_ptrace_wrap = use_ptrace_wrap and has_debugger
++
  message('HAVE_PTRACE: @0@'.format(have_ptrace))
  message('USE_PTRACE_WRAP: @0@'.format(use_ptrace_wrap))
  
-+has_debugger = not (host_machine.system() == 'linux' and host_machine.cpu_family() == 's390x')
-+
- checks_level = get_option('checks_level')
- if checks_level == 9999
-   if get_option('buildtype') == 'release'
-@@ -282,7 +284,7 @@ userconf.set('HAVE_LIB_MAGIC', sys_magic.found().to_int())
+@@ -282,7 +286,7 @@ userconf.set('HAVE_LIB_MAGIC', sys_magic.found().to_int())
  userconf.set('USE_LIB_MAGIC', use_syslib_magic.to_int())
  userconf.set('HAVE_LIB_XXHASH', sys_xxhash.found().to_int())
  userconf.set('USE_LIB_XXHASH', use_sys_xxhash.to_int())
