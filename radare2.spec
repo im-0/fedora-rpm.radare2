@@ -3,7 +3,7 @@
 
 Name:           radare2
 Summary:        The reverse engineering framework
-Version:        3.0.1
+Version:        3.1.0
 URL:            https://radare.org/
 VCS:            https://github.com/radare/radare2
 
@@ -14,7 +14,7 @@ VCS:            https://github.com/radare/radare2
 %global         commit          00144a348c47802f203e5de9add609ea1b0808e4
 %global         shortcommit     %(c=%{commit}; echo ${c:0:7})
 
-%global         rel              2
+%global         rel              1
 
 %if %{with build_release}
 Release:        %{rel}%{?dist}
@@ -107,7 +107,7 @@ Provides:       bundled(spp) = 1.0
 # ./shlr/sdb/README.md
 # sdb is a simple string key/value database based on djb's cdb
 # https://github.com/radare/sdb
-Provides:       bundled(sdb) = 1.2.0
+Provides:       bundled(sdb) = 1.3.0
 
 # ./shlr/sdb/src/json/README
 # https://github.com/quartzjer/js0n
@@ -193,7 +193,7 @@ rm man/r2-docker.1
 # Webui contains pre-build and/or minimized versions of JS libraries without source code
 # Consider installing the web-interface from https://github.com/radare/radare2-webui
 rm -rf ./shlr/www/*
-echo "The radare2 source usually comes with a pre-built version of the web-interface, but without the source code" > ./shlr/www/README.Fedora
+echo "The radare2 source usually comes with a pre-built version of the web-interface, but without the source code." > ./shlr/www/README.Fedora
 echo "This has been removed in the Fedora package to follow the Fedora Packaging Guidelines." >> ./shlr/www/README.Fedora
 echo "Available under https://github.com/radare/radare2-webui" >> ./shlr/www/README.Fedora
 
@@ -236,7 +236,7 @@ ln -s radare2 %{buildroot}/%{_bindir}/r2
 %doc doc/siol.md doc/strings.md doc/windbg.md doc/yara.md
 %license COPYING COPYING.LESSER
 %{_bindir}/r*
-%{_libdir}/libr_*.so.3.0.*
+%{_libdir}/libr_*.so.3.1.*
 %{_mandir}/man1/r*.1.*
 %{_mandir}/man7/esil.7.*
 
@@ -259,7 +259,6 @@ ln -s radare2 %{buildroot}/%{_bindir}/r2
 %{_datadir}/doc/%{name}/fortunes.*
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/doc/%{name}
-%dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/%{version}
 %dir %{_datadir}/%{name}/%{version}/www
 # Webui removed cuz of having minified js code and missing source code
@@ -267,6 +266,9 @@ ln -s radare2 %{buildroot}/%{_bindir}/r2
 
 
 %changelog
+* Fri Nov 23 2018 Riccardo Schirone <rschirone91@gmail.com> 3.1.0-1
+- rebase to upstream version 3.1.0
+- remove duplicated /usr/share/radare2 dir in %files
 * Tue Oct 23 2018 Riccardo Schirone <rschirone91@gmail.com> 3.0.1-1
 - rebase to upstream version 3.0.1 which includes some minor fixes and fixes
   for ppc64 and s390x architectures
