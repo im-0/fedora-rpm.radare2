@@ -3,7 +3,7 @@
 
 Name:           radare2
 Summary:        The reverse engineering framework
-Version:        3.1.0
+Version:        3.2.0
 URL:            https://radare.org/
 VCS:            https://github.com/radare/radare2
 
@@ -20,8 +20,6 @@ VCS:            https://github.com/radare/radare2
 Release:        %{rel}%{?dist}
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 
-Patch1:         radare2-disable-debugger-s390x.patch
-Patch2:         radare2-io_ptrace-no-debugger.patch
 %else
 Release:        0.%{rel}.%{gitdate}git%{shortcommit}%{?dist}
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{commit}/%{name}-%{version}-%{shortcommit}.tar.gz
@@ -183,13 +181,8 @@ information
 # Rename internal "version-git" to "version"
 sed -i -e "s|%{version}-git|%{version}|g;" configure configure.acr
 %endif
-# Removing some fortunes because inappropriate
-rm doc/fortunes.{creepy,nsfw,fun}
 # Removing zip/lzip and lz4 files because we use system dependencies
 rm -rf shlr/zip shlr/lz4
-# Removing unused man pages
-rm man/r2pm.1
-rm man/r2-docker.1
 
 # Webui contains pre-build and/or minimized versions of JS libraries without source code
 # Consider installing the web-interface from https://github.com/radare/radare2-webui
@@ -202,14 +195,17 @@ echo "Available under https://github.com/radare/radare2-webui" >> ./shlr/www/REA
 %build
 # Whereever possible use the system-wide libraries instead of bundles
 %meson \
-    -Duse_sys_capstone=true \
     -Duse_sys_magic=true \
     -Duse_sys_zip=true \
     -Duse_sys_zlib=true \
     -Duse_sys_lz4=true \
     -Duse_sys_xxhash=true \
     -Duse_sys_openssl=true \
-    -Duse_libuv=true
+    -Duse_libuv=true \
+%ifarch s390x
+    -Ddebugger=false \
+%endif
+    -Duse_sys_capstone=true
 %meson_build
 
 %install
@@ -219,6 +215,11 @@ echo "Available under https://github.com/radare/radare2-webui" >> ./shlr/www/REA
 rm %{buildroot}/%{_bindir}/r2pm
 # create r2 symlink because meson build does not create it (yet)
 ln -s radare2 %{buildroot}/%{_bindir}/r2
+# install README.Fedora for the www part
+mkdir -p %{buildroot}/%{_datadir}/%{name}/%{version}/www
+cp ./shlr/www/README.Fedora %{buildroot}/%{_datadir}/%{name}/%{version}/www/README.Fedora
+# remove unneeded fortunes
+rm %{buildroot}/%{_datadir}/doc/%{name}/fortunes.{creepy,nsfw,fun}
 
 %ldconfig_scriptlets
 
@@ -235,11 +236,16 @@ ln -s radare2 %{buildroot}/%{_bindir}/r2
 %doc doc/avr.md doc/brainfuck.md doc/calling-conventions.md doc/debug.md
 %doc doc/esil.md doc/gdb.md doc/gprobe.md doc/intro.md doc/io.md doc/rap.md
 %doc doc/siol.md doc/strings.md doc/windbg.md doc/yara.md
+%doc doc/fortunes.tips
+%dir %{_datadir}/%{name}/%{version}/www
+# Webui removed cuz of having minified js code and missing source code
+%doc %{_datadir}/%{name}/%{version}/www/README.Fedora
 %license COPYING COPYING.LESSER
 %{_bindir}/r*
-%{_libdir}/libr_*.so.3.1.*
+%{_libdir}/libr_*.so.3.2.*
 %{_mandir}/man1/r*.1.*
 %{_mandir}/man7/esil.7.*
+%{_datadir}/zsh/vendor-completions/_r*
 
 
 %files devel
@@ -257,16 +263,17 @@ ln -s radare2 %{buildroot}/%{_bindir}/r2
 %{_datadir}/%{name}/%{version}/magic
 %{_datadir}/%{name}/%{version}/opcodes
 %{_datadir}/%{name}/%{version}/syscall
-%{_datadir}/doc/%{name}/fortunes.*
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/doc/%{name}
 %dir %{_datadir}/%{name}/%{version}
-%dir %{_datadir}/%{name}/%{version}/www
-# Webui removed cuz of having minified js code and missing source code
-%doc %{_datadir}/%{name}/%{version}/www/README.Fedora
 
 
 %changelog
+* Tue Jan 8 2019 Riccardo Schirone <rschirone91@gmail.com> 3.2.0-1
+- rebase to upstream version 3.2.0
+- remove patch to disable debugger on s390x and use build option
+- move doc files to common package
+- fix CVE-2018-20455 CVE-2018-20456 CVE-2018-20457 CVE-2018-20458 CVE-2018-20459 CVE-2018-20460 CVE-2018-20461
 * Fri Nov 23 2018 Riccardo Schirone <rschirone91@gmail.com> 3.1.0-1
 - rebase to upstream version 3.1.0
 - remove duplicated /usr/share/radare2 dir in %files
