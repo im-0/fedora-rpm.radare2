@@ -1,0 +1,12 @@
+diff -up radare2-3.2.0/libr/asm/p/asm_arm_gnu.c.orig radare2-3.2.0/libr/asm/p/asm_arm_gnu.c
+diff -up radare2-3.2.0/meson.build.orig radare2-3.2.0/meson.build
+--- radare2-3.2.0/meson.build.orig	2019-01-09 16:46:04.897149233 +0100
++++ radare2-3.2.0/meson.build	2019-01-09 16:46:32.199021773 +0100
+@@ -1,6 +1,6 @@
+ project('radare2', 'c', license: 'LGPL3', meson_version: '>=0.47.0')
+ 
+-py3_exe = import('python').find_installation('python3')
++py3_exe = import('python').find_installation('python36')
+ git_exe = find_program('git', required: false)
+ pkgconfig_mod = import('pkgconfig')
+ 

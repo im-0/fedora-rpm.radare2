@@ -20,6 +20,8 @@ VCS:            https://github.com/radare/radare2
 Release:        %{rel}%{?dist}
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 
+Patch1:         radare2-epel-use-python36.patch
+Patch2:         radare2-for-loops.patch
 %else
 Release:        0.%{rel}.%{gitdate}git%{shortcommit}%{?dist}
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{commit}/%{name}-%{version}-%{shortcommit}.tar.gz
@@ -69,7 +71,13 @@ BuildRequires:  meson
 BuildRequires:  ninja-build
 BuildRequires:  file-devel
 BuildRequires:  pkgconfig
+
+%if 0%{?epel}
+BuildRequires:  bzip2-devel
+BuildRequires:  python36
+%else
 BuildRequires:  pkgconfig(bzip2)
+%endif
 BuildRequires:  pkgconfig(libzip)
 BuildRequires:  pkgconfig(zlib)
 BuildRequires:  pkgconfig(liblz4)
@@ -174,7 +182,11 @@ information
 %prep
 %if %{with build_release}
 # Build from git release version
-%autosetup -p1 -n %{gitname}-%{version}
+%setup -n %{gitname}-%{version}
+%if 0%{?epel}
+%patch1 -p1
+%endif
+%patch2 -p1
 %else
 # Build from git commit
 %setup -q -n %{gitname}-%{commit}
@@ -190,7 +202,6 @@ rm -rf ./shlr/www/*
 echo "The radare2 source usually comes with a pre-built version of the web-interface, but without the source code." > ./shlr/www/README.Fedora
 echo "This has been removed in the Fedora package to follow the Fedora Packaging Guidelines." >> ./shlr/www/README.Fedora
 echo "Available under https://github.com/radare/radare2-webui" >> ./shlr/www/README.Fedora
-
 
 %build
 # Whereever possible use the system-wide libraries instead of bundles
@@ -236,7 +247,7 @@ rm %{buildroot}/%{_datadir}/doc/%{name}/fortunes.{creepy,nsfw,fun}
 %doc doc/avr.md doc/brainfuck.md doc/calling-conventions.md doc/debug.md
 %doc doc/esil.md doc/gdb.md doc/gprobe.md doc/intro.md doc/io.md doc/rap.md
 %doc doc/siol.md doc/strings.md doc/windbg.md doc/yara.md
-%doc doc/fortunes.tips
+%doc %{_datadir}/doc/%{name}/fortunes.tips
 %dir %{_datadir}/%{name}/%{version}/www
 # Webui removed cuz of having minified js code and missing source code
 %doc %{_datadir}/%{name}/%{version}/www/README.Fedora
