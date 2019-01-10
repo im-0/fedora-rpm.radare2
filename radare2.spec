@@ -14,7 +14,7 @@ VCS:            https://github.com/radare/radare2
 %global         commit          00144a348c47802f203e5de9add609ea1b0808e4
 %global         shortcommit     %(c=%{commit}; echo ${c:0:7})
 
-%global         rel              1
+%global         rel              2
 
 %if %{with build_release}
 Release:        %{rel}%{?dist}
@@ -22,6 +22,7 @@ Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{version}.tar.
 
 Patch1:         radare2-epel-use-python36.patch
 Patch2:         radare2-for-loops.patch
+Patch3:         radare2-gittap-release.patch
 %else
 Release:        0.%{rel}.%{gitdate}git%{shortcommit}%{?dist}
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{commit}/%{name}-%{version}-%{shortcommit}.tar.gz
@@ -187,6 +188,7 @@ information
 %patch1 -p1
 %endif
 %patch2 -p1
+%patch3 -p1
 %else
 # Build from git commit
 %setup -q -n %{gitname}-%{commit}
@@ -280,6 +282,8 @@ rm %{buildroot}/%{_datadir}/doc/%{name}/fortunes.{creepy,nsfw,fun}
 
 
 %changelog
+* Thu Jan 10 2019 Riccardo Schirone <rschirone91@gmail.com> 3.2.0-2
+- fix version reported by radare2 -V
 * Tue Jan 8 2019 Riccardo Schirone <rschirone91@gmail.com> 3.2.0-1
 - rebase to upstream version 3.2.0
 - remove patch to disable debugger on s390x and use build option
