@@ -17,14 +17,14 @@ VCS:            https://github.com/radare/radare2
 %global         rel              2
 
 %if %{with build_release}
-Release:        %{rel}%{?dist}
+Release:        %{rel}%{?dist}.1
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 
 Patch1:         radare2-epel-use-python36.patch
 Patch2:         radare2-for-loops.patch
 Patch3:         radare2-gittap-release.patch
 %else
-Release:        0.%{rel}.%{gitdate}git%{shortcommit}%{?dist}
+Release:        0.%{rel}.%{gitdate}git%{shortcommit}%{?dist}.1
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{commit}/%{name}-%{version}-%{shortcommit}.tar.gz
 %endif
 
@@ -282,6 +282,9 @@ rm %{buildroot}/%{_datadir}/doc/%{name}/fortunes.{creepy,nsfw,fun}
 
 
 %changelog
+* Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.0-2.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+
 * Thu Jan 10 2019 Riccardo Schirone <rschirone91@gmail.com> 3.2.0-2
 - fix version reported by radare2 -V
 * Tue Jan 8 2019 Riccardo Schirone <rschirone91@gmail.com> 3.2.0-1
