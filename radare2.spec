@@ -3,29 +3,27 @@
 
 Name:           radare2
 Summary:        The reverse engineering framework
-Version:        3.2.0
+Version:        3.3.0
 URL:            https://radare.org/
 VCS:            https://github.com/radare/radare2
 
 %global         gituser         radare
 %global         gitname         radare2
 
-%global         gitdate         20180904
-%global         commit          00144a348c47802f203e5de9add609ea1b0808e4
+%global         gitdate         20190219
+%global         commit          365d3e9f37696aba9a8f6e1109e91854eff6db42
 %global         shortcommit     %(c=%{commit}; echo ${c:0:7})
 
-%global         rel              2
+%global         rel              1
 
 %if %{with build_release}
 Release:        %{rel}%{?dist}.1
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 
 Patch1:         radare2-epel-use-python36.patch
-Patch2:         radare2-for-loops.patch
-Patch3:         radare2-gittap-release.patch
 %else
 Release:        0.%{rel}.%{gitdate}git%{shortcommit}%{?dist}.1
-Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{commit}/%{name}-%{version}-%{shortcommit}.tar.gz
+Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{commit}/%{name}-%{commit}.zip
 %endif
 
 License:        LGPLv3+ and GPLv2+ and BSD and MIT and ASL 2.0 and MPLv2.0 and zlib
@@ -187,8 +185,6 @@ information
 %if 0%{?epel}
 %patch1 -p1
 %endif
-%patch2 -p1
-%patch3 -p1
 %else
 # Build from git commit
 %setup -q -n %{gitname}-%{commit}
@@ -255,7 +251,7 @@ rm %{buildroot}/%{_datadir}/doc/%{name}/fortunes.{creepy,nsfw,fun}
 %doc %{_datadir}/%{name}/%{version}/www/README.Fedora
 %license COPYING COPYING.LESSER
 %{_bindir}/r*
-%{_libdir}/libr_*.so.3.2.*
+%{_libdir}/libr_*.so.%{version}*
 %{_mandir}/man1/r*.1.*
 %{_mandir}/man7/esil.7.*
 %{_datadir}/zsh/vendor-completions/_r*
