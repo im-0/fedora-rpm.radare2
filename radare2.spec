@@ -278,6 +278,8 @@ rm %{buildroot}/%{_datadir}/doc/%{name}/fortunes.{creepy,nsfw,fun}
 
 
 %changelog
+* Tue Feb 19 2019 Riccardo Schirone <rschirone91@gmail.com> - 3.3.0-1
+- rebase to upstream version 3.3.0
 * Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.0-2.1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
