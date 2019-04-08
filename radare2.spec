@@ -3,18 +3,18 @@
 
 Name:           radare2
 Summary:        The reverse engineering framework
-Version:        3.3.0
+Version:        3.4.1
 URL:            https://radare.org/
 VCS:            https://github.com/radare/radare2
 
 %global         gituser         radare
 %global         gitname         radare2
 
-%global         gitdate         20190219
-%global         commit          365d3e9f37696aba9a8f6e1109e91854eff6db42
+%global         gitdate         20190401
+%global         commit          3c41cb7d7ed018509a24c2e370d79a91c642ed07
 %global         shortcommit     %(c=%{commit}; echo ${c:0:7})
 
-%global         rel              2
+%global         rel              1
 
 %if %{with build_release}
 Release:        %{rel}%{?dist}.1
@@ -278,6 +278,8 @@ rm %{buildroot}/%{_datadir}/doc/%{name}/fortunes.{creepy,nsfw,fun}
 
 
 %changelog
+* Mon Apr 8 2019 Riccardo Schirone <rschirone91@gmail.com> - 3.4.1-1
+- rebase to upstream version 3.4.1
 * Tue Feb 19 2019 Riccardo Schirone <rschirone91@gmail.com> - 3.3.0-2
 - rebase to upstream version 3.3.0
 * Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.0-2.1
