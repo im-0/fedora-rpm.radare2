@@ -14,15 +14,15 @@ VCS:            https://github.com/radare/radare2
 %global         commit          3c41cb7d7ed018509a24c2e370d79a91c642ed07
 %global         shortcommit     %(c=%{commit}; echo ${c:0:7})
 
-%global         rel              1
+%global         rel              2
 
 %if %{with build_release}
-Release:        %{rel}%{?dist}.1
+Release:        %{rel}%{?dist}
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 
 Patch1:         radare2-epel-use-python36.patch
 %else
-Release:        0.%{rel}.%{gitdate}git%{shortcommit}%{?dist}.1
+Release:        0.%{rel}.%{gitdate}git%{shortcommit}%{?dist}
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{commit}/%{name}-%{commit}.zip
 %endif
 
@@ -278,6 +278,10 @@ rm %{buildroot}/%{_datadir}/doc/%{name}/fortunes.{creepy,nsfw,fun}
 
 
 %changelog
+* Tue Apr 16 2019 Adam Williamson <awilliam@redhat.com> - 3.4.1-2
+- Rebuild with Meson fix for #1699099
+- Fix versioning
+
 * Mon Apr 8 2019 Riccardo Schirone <rschirone91@gmail.com> - 3.4.1-1
 - rebase to upstream version 3.4.1
 * Tue Feb 19 2019 Riccardo Schirone <rschirone91@gmail.com> - 3.3.0-2
