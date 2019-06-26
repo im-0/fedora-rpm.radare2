@@ -3,7 +3,7 @@
 
 Name:           radare2
 Summary:        The reverse engineering framework
-Version:        3.4.1
+Version:        3.6.0
 URL:            https://radare.org/
 VCS:            https://github.com/radare/radare2
 
@@ -14,7 +14,7 @@ VCS:            https://github.com/radare/radare2
 %global         commit          3c41cb7d7ed018509a24c2e370d79a91c642ed07
 %global         shortcommit     %(c=%{commit}; echo ${c:0:7})
 
-%global         rel              2
+%global         rel              1
 
 %if %{with build_release}
 Release:        %{rel}%{?dist}
@@ -113,7 +113,7 @@ Provides:       bundled(spp) = 1.0
 # ./shlr/sdb/README.md
 # sdb is a simple string key/value database based on djb's cdb
 # https://github.com/radare/sdb
-Provides:       bundled(sdb) = 1.3.0
+Provides:       bundled(sdb) = 1.4.0
 
 # ./shlr/sdb/src/json/README
 # https://github.com/quartzjer/js0n
@@ -254,7 +254,7 @@ rm %{buildroot}/%{_datadir}/doc/%{name}/fortunes.{creepy,nsfw,fun}
 %{_libdir}/libr_*.so.%{version}*
 %{_mandir}/man1/r*.1.*
 %{_mandir}/man7/esil.7.*
-%{_datadir}/zsh/vendor-completions/_r*
+%{_datadir}/zsh/site-functions/_r*
 
 
 %files devel
@@ -278,6 +278,8 @@ rm %{buildroot}/%{_datadir}/doc/%{name}/fortunes.{creepy,nsfw,fun}
 
 
 %changelog
+* Wed Jun 26 2019 Riccardo Schirone <rschirone91@gmail.com> - 3.6.0
+- rebase to upstream version 3.6.0
 * Tue Apr 16 2019 Adam Williamson <awilliam@redhat.com> - 3.4.1-2
 - Rebuild with Meson fix for #1699099
 - Fix versioning
