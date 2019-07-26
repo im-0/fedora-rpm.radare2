@@ -17,12 +17,12 @@ VCS:            https://github.com/radare/radare2
 %global         rel              1
 
 %if %{with build_release}
-Release:        %{rel}%{?dist}
+Release:        %{rel}%{?dist}.1
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 
 Patch1:         radare2-epel-use-python36.patch
 %else
-Release:        0.%{rel}.%{gitdate}git%{shortcommit}%{?dist}
+Release:        0.%{rel}.%{gitdate}git%{shortcommit}%{?dist}.1
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{commit}/%{name}-%{commit}.zip
 %endif
 
@@ -278,6 +278,9 @@ rm %{buildroot}/%{_datadir}/doc/%{name}/fortunes.{creepy,nsfw,fun}
 
 
 %changelog
+* Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.0-1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
 * Wed Jun 26 2019 Riccardo Schirone <rschirone91@gmail.com> - 3.6.0
 - rebase to upstream version 3.6.0
 * Tue Apr 16 2019 Adam Williamson <awilliam@redhat.com> - 3.4.1-2
