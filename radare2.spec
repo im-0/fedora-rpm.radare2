@@ -3,7 +3,7 @@
 
 Name:           radare2
 Summary:        The reverse engineering framework
-Version:        3.6.0
+Version:        3.9.0
 URL:            https://radare.org/
 VCS:            https://github.com/radare/radare2
 
@@ -113,7 +113,7 @@ Provides:       bundled(spp) = 1.0
 # ./shlr/sdb/README.md
 # sdb is a simple string key/value database based on djb's cdb
 # https://github.com/radare/sdb
-Provides:       bundled(sdb) = 1.4.0
+Provides:       bundled(sdb) = 1.4.1
 
 # ./shlr/sdb/src/json/README
 # https://github.com/quartzjer/js0n
@@ -278,6 +278,9 @@ rm %{buildroot}/%{_datadir}/doc/%{name}/fortunes.{creepy,nsfw,fun}
 
 
 %changelog
+* Mon Sep 30 2019 Riccardo Schirone <rschirone91@gmail.com> - 3.9.0-1.1
+- rebase to upstream version 3.9.0
+
 * Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.0-1.1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
