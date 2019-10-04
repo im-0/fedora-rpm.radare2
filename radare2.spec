@@ -14,7 +14,7 @@ VCS:            https://github.com/radare/radare2
 %global         commit          3c41cb7d7ed018509a24c2e370d79a91c642ed07
 %global         shortcommit     %(c=%{commit}; echo ${c:0:7})
 
-%global         rel              1
+%global         rel              2
 
 %if %{with build_release}
 Release:        %{rel}%{?dist}.1
@@ -69,6 +69,7 @@ BuildRequires:  gcc
 BuildRequires:  meson
 BuildRequires:  ninja-build
 BuildRequires:  file-devel
+BuildRequires:  xxhash-devel
 BuildRequires:  pkgconfig
 
 %if 0%{?epel}
@@ -82,6 +83,7 @@ BuildRequires:  pkgconfig(zlib)
 BuildRequires:  pkgconfig(liblz4)
 BuildRequires:  pkgconfig(capstone) >= 3.0.4
 BuildRequires:  pkgconfig(libuv)
+BuildRequires:  pkgconfig(openssl)
 
 Requires:       %{name}-common = %{version}-%{release}
 
@@ -162,6 +164,8 @@ basic block, and function levels.
 %package devel
 Summary:        Development files for the radare2 package
 Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       file-devel
+Requires:       openssl-devel
 
 %description devel
 Development files for the radare2 package. See radare2 package for more
@@ -278,6 +282,10 @@ rm %{buildroot}/%{_datadir}/doc/%{name}/fortunes.{creepy,nsfw,fun}
 
 
 %changelog
+* Fri Oct 04 2019 Ivan Mironov <mironov.ivan@gmail.com> - 3.9.0-2.1
+- Add missing BuildRequires: xxhash-devel, openssl-devel
+- Add missing Requires for -devel package: file-devel, openssl-devel
+
 * Mon Sep 30 2019 Riccardo Schirone <rschirone91@gmail.com> - 3.9.0-1.1
 - rebase to upstream version 3.9.0
 
