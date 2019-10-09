@@ -14,13 +14,11 @@ VCS:            https://github.com/radare/radare2
 %global         commit          3c41cb7d7ed018509a24c2e370d79a91c642ed07
 %global         shortcommit     %(c=%{commit}; echo ${c:0:7})
 
-%global         rel              2
+%global         rel              3
 
 %if %{with build_release}
 Release:        %{rel}%{?dist}.1
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
-
-Patch1:         radare2-epel-use-python36.patch
 %else
 Release:        0.%{rel}.%{gitdate}git%{shortcommit}%{?dist}.1
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{commit}/%{name}-%{commit}.zip
@@ -74,7 +72,7 @@ BuildRequires:  pkgconfig
 
 %if 0%{?epel}
 BuildRequires:  bzip2-devel
-BuildRequires:  python36
+BuildRequires:  python3
 %else
 BuildRequires:  pkgconfig(bzip2)
 %endif
@@ -186,9 +184,6 @@ information
 %if %{with build_release}
 # Build from git release version
 %setup -n %{gitname}-%{version}
-%if 0%{?epel}
-%patch1 -p1
-%endif
 %else
 # Build from git commit
 %setup -q -n %{gitname}-%{commit}
@@ -282,6 +277,9 @@ rm %{buildroot}/%{_datadir}/doc/%{name}/fortunes.{creepy,nsfw,fun}
 
 
 %changelog
+* Mon Oct 07 2019 Riccardo Schirone <rschirone91@gmail.com> - 3.9.0-3.1
+- Fix epel7 build
+
 * Fri Oct 04 2019 Ivan Mironov <mironov.ivan@gmail.com> - 3.9.0-2.1
 - Add missing BuildRequires: xxhash-devel, openssl-devel
 - Add missing Requires for -devel package: file-devel, openssl-devel
