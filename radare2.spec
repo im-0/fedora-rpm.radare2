@@ -17,10 +17,10 @@ VCS:            https://github.com/radare/radare2
 %global         rel              3
 
 %if %{with build_release}
-Release:        %{rel}%{?dist}.1
+Release:        %{rel}%{?dist}.2
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 %else
-Release:        0.%{rel}.%{gitdate}git%{shortcommit}%{?dist}.1
+Release:        0.%{rel}.%{gitdate}git%{shortcommit}%{?dist}.2
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{commit}/%{name}-%{commit}.zip
 %endif
 
@@ -277,6 +277,9 @@ rm %{buildroot}/%{_datadir}/doc/%{name}/fortunes.{creepy,nsfw,fun}
 
 
 %changelog
+* Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9.0-3.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+
 * Mon Oct 07 2019 Riccardo Schirone <rschirone91@gmail.com> - 3.9.0-3.1
 - Fix epel7 build
 
