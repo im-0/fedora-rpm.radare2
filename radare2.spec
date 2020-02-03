@@ -17,10 +17,10 @@ VCS:            https://github.com/radare/radare2
 %global         rel              1
 
 %if %{with build_release}
-Release:        %{rel}%{?dist}.2
+Release:        %{rel}%{?dist}
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 %else
-Release:        0.%{rel}.%{gitdate}git%{shortcommit}%{?dist}.2
+Release:        0.%{rel}.%{gitdate}git%{shortcommit}%{?dist}
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{commit}/%{name}-%{commit}.zip
 %endif
 
@@ -277,7 +277,7 @@ rm %{buildroot}/%{_datadir}/doc/%{name}/fortunes.{creepy,nsfw,fun}
 
 
 %changelog
-* Mon Feb 3 2020 Riccardo Schirone <rschirone91@gmail.com> - 4.2.1-1.1
+* Mon Feb 3 2020 Riccardo Schirone <rschirone91@gmail.com> - 4.2.1-1
 - Rebase to upstream version 4.2.1
 - Fix CVE-2019-19647
 - Fix CVE-2019-19590
