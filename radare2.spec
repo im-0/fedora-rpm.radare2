@@ -3,7 +3,7 @@
 
 Name:           radare2
 Summary:        The reverse engineering framework
-Version:        3.9.0
+Version:        4.2.1
 URL:            https://radare.org/
 VCS:            https://github.com/radare/radare2
 
@@ -14,7 +14,7 @@ VCS:            https://github.com/radare/radare2
 %global         commit          3c41cb7d7ed018509a24c2e370d79a91c642ed07
 %global         shortcommit     %(c=%{commit}; echo ${c:0:7})
 
-%global         rel              3
+%global         rel              1
 
 %if %{with build_release}
 Release:        %{rel}%{?dist}.2
@@ -277,6 +277,11 @@ rm %{buildroot}/%{_datadir}/doc/%{name}/fortunes.{creepy,nsfw,fun}
 
 
 %changelog
+* Mon Feb 3 2020 Riccardo Schirone <rschirone91@gmail.com> - 4.2.1-1.1
+- Rebase to upstream version 4.2.1
+- Fix CVE-2019-19647
+- Fix CVE-2019-19590
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9.0-3.2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
