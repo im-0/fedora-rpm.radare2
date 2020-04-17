@@ -3,11 +3,11 @@
 
 Name:           radare2
 Summary:        The reverse engineering framework
-Version:        4.2.1
+Version:        4.4.0
 URL:            https://radare.org/
 VCS:            https://github.com/radare/radare2
 
-%global         gituser         radare
+%global         gituser         radareorg
 %global         gitname         radare2
 
 %global         gitdate         20190401
@@ -210,6 +210,7 @@ echo "Available under https://github.com/radare/radare2-webui" >> ./shlr/www/REA
     -Duse_sys_xxhash=true \
     -Duse_sys_openssl=true \
     -Duse_libuv=true \
+    -Denable_r2r=false \
 %ifarch s390x
     -Ddebugger=false \
 %endif
@@ -277,6 +278,9 @@ rm %{buildroot}/%{_datadir}/doc/%{name}/fortunes.{creepy,nsfw,fun}
 
 
 %changelog
+* Sat Apr 18 2020 Ivan Mironov <mironov.ivan@gmail.com> - 4.4.0-1
+- Rebase to upstream version 4.4.0
+
 * Mon Feb 3 2020 Riccardo Schirone <rschirone91@gmail.com> - 4.2.1-1
 - Rebase to upstream version 4.2.1
 - Fix CVE-2019-19647
